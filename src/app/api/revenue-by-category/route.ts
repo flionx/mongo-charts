@@ -1,0 +1,31 @@
+import { OrderModel } from "@/entities/order/model";
+import { connectMongodb } from "@/shared/lib/mongodb";
+
+export async function GET() {
+    await connectMongodb();
+
+    const result = await OrderModel.aggregate([
+        {
+            $group: {
+                _id: "$category",
+                revenue: {
+                    $sum: { $multiply: ["$price", "$quantity"] }
+                },
+                ordersCount: { $sum: 1 }
+            }
+        },
+        {
+            $project: {
+                _id: 0,
+                category: "$_id",
+                revenue: 1,
+                ordersCount: 1
+            }
+        },
+        {
+            $sort: { revenue: -1 }
+        }
+    ]);
+
+    return Response.json(result)
+}
