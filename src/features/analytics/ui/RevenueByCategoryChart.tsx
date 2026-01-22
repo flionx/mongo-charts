@@ -14,12 +14,14 @@ export function RevenueByCategoryChart() {
   const [data, setData] = useState<Item[]>([]);
 
   useEffect(() => {
-    fetchWithCache<Item[]>("revenue-by-category")
-        .then(setData);
+    fetchWithCache<Item[]>("revenue-by-category").then(res => {
+      const shuffled = [...res].sort(() => Math.random() - 0.5);
+      setData(shuffled);
+    })
   }, []);
 
   return (
-    <ChartCard title="Revenue by Category">
+    <ChartCard title="Revenue by category">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data}>
           <XAxis dataKey="category" />

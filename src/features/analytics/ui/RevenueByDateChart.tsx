@@ -20,7 +20,7 @@ export function RevenueByDateChart() {
   }, []);
 
   return (
-    <ChartCard title="Revenue Over Time">
+    <ChartCard title="Revenue over time">
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={data}>
           <XAxis

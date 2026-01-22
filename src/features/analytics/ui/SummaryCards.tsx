@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { fetchWithCache } from "@/shared/lib/fetchWithCache";
+import { formatCurrency } from "@/shared/lib/formatCurrency";
 
 type Summary = {
   ordersCount: number;
@@ -30,8 +31,8 @@ export function SummaryCards() {
   return (
     <section className="grid grid-cols-2 gap-4 md:grid-cols-4">
       <Card title="Orders" value={data.ordersCount} />
-      <Card title="Revenue" value={`$${data.revenue}`} />
-      <Card title="Avg Order" value={`$${data.avgOrder}`} />
+      <Card title="Revenue" value={formatCurrency(data.revenue)} />
+      <Card title="Avg Order" value={formatCurrency(data.avgOrder)} />
       <Card title="Cities" value={data.citiesCount} />
     </section>
   );

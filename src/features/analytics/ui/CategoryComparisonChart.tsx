@@ -22,7 +22,7 @@ export function CategoryComparisonChart() {
     }, []);
 
   return (
-    <ChartCard title="Orders vs Revenue by Category">
+    <ChartCard title="Revenue and Orders by category">
       <ResponsiveContainer width="100%" height="100%">
         <ComposedChart data={data}>
           <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
@@ -75,7 +75,7 @@ export function CategoryComparisonChart() {
             yAxisId="revenue"
             dataKey="revenue"
             name="Revenue"
-            stroke="#f97316"
+            stroke="#22c55e"
             strokeWidth={3}
             dot={{ r: 4 }}
             activeDot={{ r: 6 }}
