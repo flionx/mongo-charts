@@ -3,12 +3,11 @@ type CacheData<T> = {
     cachedAt: number
 }
 
+const TTLMS = 6 * 60 * 1000;
 const isBrowser = () => window !== undefined;
 
 export async function fetchWithCache<T>(
     key: string,
-    ttlMs: number,
-    fetcher: () => Promise<T>
 ): Promise<T> {
     if (isBrowser()) {
         const raw = localStorage.getItem(key);
@@ -16,7 +15,7 @@ export async function fetchWithCache<T>(
         if (raw) {
             try {
                 const parsed: CacheData<T> = JSON.parse(raw);
-                if (Date.now() - parsed.cachedAt < ttlMs) {
+                if (Date.now() - parsed.cachedAt < TTLMS) {
                     return parsed.data;
                 } else {
                     localStorage.removeItem(key);
@@ -27,7 +26,8 @@ export async function fetchWithCache<T>(
         }
     }
 
-    const fetchData = await fetcher();
+    const res = await fetch(`/api/${key}`);
+    const fetchData = await res.json() as T;
 
     if (isBrowser()) {
         const entry: CacheData<T> = {

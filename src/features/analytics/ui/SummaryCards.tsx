@@ -9,20 +9,12 @@ type Summary = {
   citiesCount: number;
 };
 
-const TTL = 5 * 60 * 1000;
-
 export function SummaryCards() {
   const [data, setData] = useState<Summary | null>(null);
 
   useEffect(() => {
-    fetchWithCache<Summary>(
-      "analytics:summary",
-      TTL,
-      async () => {
-        const res = await fetch("/api/summary");
-        return res.json();
-      }
-    ).then(setData);
+    fetchWithCache<Summary>("summary")
+        .then(setData);
   }, []);
 
   if (!data) {

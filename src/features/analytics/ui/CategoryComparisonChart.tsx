@@ -1,6 +1,6 @@
 "use client";
-import { ResponsiveContainer, ComposedChart, Bar, Line, XAxis, YAxis, Tooltip, CartesianGrid, Legend } from "recharts";
 import { useEffect, useState } from "react";
+import { ResponsiveContainer, ComposedChart, Bar, Line, XAxis, YAxis, Tooltip, CartesianGrid, Legend } from "recharts";
 import { fetchWithCache } from "@/shared/lib/fetchWithCache";
 import { ChartCard } from "@/shared/ui/ChartCard";
 import { formatCurrency } from "@/shared/lib/formatCurrency";
@@ -12,19 +12,14 @@ type DataItem = {
 };
 
 export function CategoryComparisonChart() {
-  const [data, setData] = useState<DataItem[]>([]);
+    const [data, setData] = useState<DataItem[]>([]);
 
-  useEffect(() => {
-    fetchWithCache<DataItem[]>(
-        "category-comparison",
-        3000000,
-        async () => {
-            const res = await fetch("/api/category-comparison");
-            return res.json();
-        }
-    ).then(setData);
-  }, []);
-
+    useEffect(() => {
+        fetchWithCache<DataItem[]>("category-comparison").then((res) => {
+            const shuffled = [...res].sort(() => Math.random() - 0.5);
+            setData(shuffled);
+        });
+    }, []);
 
   return (
     <ChartCard title="Orders vs Revenue by Category">

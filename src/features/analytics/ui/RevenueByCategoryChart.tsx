@@ -10,20 +10,12 @@ type Item = {
   revenue: number;
 };
 
-const TTL = 5 * 60 * 1000;
-
 export function RevenueByCategoryChart() {
   const [data, setData] = useState<Item[]>([]);
 
   useEffect(() => {
-    fetchWithCache<Item[]>(
-      "analytics:revenue-by-category",
-      TTL,
-      async () => {
-        const res = await fetch("/api/revenue-by-category");
-        return res.json();
-      }
-    ).then(setData);
+    fetchWithCache<Item[]>("revenue-by-category")
+        .then(setData);
   }, []);
 
   return (
